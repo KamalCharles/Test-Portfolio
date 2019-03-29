@@ -1,0 +1,20 @@
+FROM coreoasis/custom_keys_server:latest
+
+RUN mkdir /var/www/oasis/keys_server
+COPY ./src/keys_server/__init__.py.base /var/www/oasis/keys_server/__init__.py
+RUN echo "\nfrom .Testportfolio import *" >> /var/www/oasis/keys_server/__init__.py
+COPY ./src/keys_server/utils.py /var/www/oasis/keys_server/
+COPY ./src/keys_server/requirements.txt /var/www/oasis/keys_server/
+RUN mkdir /var/www/oasis/keys_server/Testportfolio
+COPY ./src/keys_server/Testportfolio/ /var/www/oasis/keys_server/Testportfolio/
+COPY ./src/keys_server/Testportfolio/KeysServer.ini /var/www/oasis/oasis_keys_server/
+
+RUN mkdir /var/oasis/keys_data && \
+    chown www-data:www-data /var/oasis/keys_data && \
+    chmod -R 744 /var/oasis/keys_data
+COPY ./keys_data/Testportfolio/ /var/oasis/keys_data/
+
+RUN pip install -r /var/www/oasis/keys_server/requirements.txt && \
+    pip install -r /var/www/oasis/keys_server/Testportfolio/requirements.txt
+
+ENTRYPOINT startup.sh
