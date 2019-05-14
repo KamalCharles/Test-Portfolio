@@ -29,8 +29,6 @@ services:
   environment:
    - MODEL_SUPPLIER_ID=Test-Porfolio
    - MODEL_VERSION_ID=Test-Porfolio
-   - LOCK_FILE = '/tmp/tmp_ktools_lock_file'
-   - DO_CLEAR_WORKING = True
    # Sets the number of cores used by the model execution
    # Set to -1 to use all available cores
    - OASIS_API_KTOOLS_BATCH_COUNT=-1
